@@ -78,6 +78,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   height: 20,
                 ),
                 TextFormField(
+                  keyboardType: TextInputType.number,
                   cursorColor: Colors.purple,
                   controller: phoneController,
                   style: const TextStyle(

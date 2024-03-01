@@ -17,60 +17,68 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   Widget build(BuildContext context) {
     final authProvider = Provider.of<AuthenProvider>(context, listen: false);
     return Scaffold(
-      body: SafeArea(
-          child: Center(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 35),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset(
-                'assets/login.png',
-                height: 300,
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              const Text(
-                "𝐋𝐞𝐭'𝐬 𝐠𝐞𝐭 𝐬𝐭𝐚𝐫𝐭𝐞𝐝",
-                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              const Text(
-                "𝐍𝐞𝐯𝐞𝐫 𝐚 𝐛𝐞𝐭𝐭𝐞𝐫 𝐭𝐢𝐦𝐞 𝐭𝐡𝐞𝐧 𝐧𝐨𝐰 𝐭𝐨 𝐬𝐭𝐚𝐫𝐭",
-                style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black38),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              SizedBox(
-                width: double.infinity,
-                height: 50,
-                child: CustomButton(
-                  onPressed: () {
-                    authProvider.isSignedIn == true
-                        ? Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => HomeScreen()))
-                        : Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => RegisterPage(),
-                            ));
-                  },
-                  text: "Get Started",
+      body: SingleChildScrollView(
+        child: SafeArea(
+            child: Center(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 35),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(
+                  'assets/login.png',
+                  height: 300,
                 ),
-              )
-            ],
+                const SizedBox(
+                  height: 20,
+                ),
+                const Text(
+                  "𝐋𝐞𝐭'𝐬 𝐠𝐞𝐭 𝐬𝐭𝐚𝐫𝐭𝐞𝐝",
+                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                const Text(
+                  "𝐍𝐞𝐯𝐞𝐫 𝐚 𝐛𝐞𝐭𝐭𝐞𝐫 𝐭𝐢𝐦𝐞 𝐭𝐡𝐞𝐧 𝐧𝐨𝐰 𝐭𝐨 𝐬𝐭𝐚𝐫𝐭",
+                  style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black38),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                SizedBox(
+                  width: double.infinity,
+                  height: 50,
+                  child: CustomButton(
+                    onPressed: () async {
+                      if (authProvider.isSignedIn == true) {
+                        await authProvider.getDataSp().whenComplete(
+                              () => Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const HomeScreen(),
+                                ),
+                              ),
+                            );
+                      } else {
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const RegisterPage(),
+                            ));
+                      }
+                    },
+                    text: "Get Started",
+                  ),
+                )
+              ],
+            ),
           ),
-        ),
-      )),
+        )),
+      ),
     );
   }
 }
